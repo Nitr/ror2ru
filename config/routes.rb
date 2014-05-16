@@ -1,9 +1,19 @@
 Ror2ru::Application.routes.draw do
+  devise_for :users, :controllers => { omniauth_callbacks: 'users/omniauth_callbacks'}
+  
+  devise_scope :user do
+    get 'sign_in', :to => 'devise/sessions#new'
+    get 'sign_out', :to => 'devise/sessions#destroy'
+  end
+
+  get '/users/:id/add_email' => 'users#add_email', via: [:get, :patch, :post], :as => :add_user_email
+  patch '/users/:id/add_email' => 'users#add_email'
+
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'welcome#index'
+  root 'welcome#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
